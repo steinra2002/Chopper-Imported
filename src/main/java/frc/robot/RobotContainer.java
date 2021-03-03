@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.function.IntSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -67,6 +69,8 @@ public class RobotContainer
                     () -> Math.signum(m_leftJoystick.getX()) * Math.pow(m_leftJoystick.getX() , 2), // rightZ -> driveCartesian.zRotation: Clockwise is positive.
                     m_driveDrive
             ));
+
+            m_headCannon.setDefaultCommand(new RotateTurretCommand( m_headCannon, false));
         } else {
             // Play with these values to see how the motors respond.
             m_driveDrive.setDefaultCommand(new MecanumCommand(

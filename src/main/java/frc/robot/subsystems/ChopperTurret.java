@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.*;
@@ -61,6 +63,19 @@ public class ChopperTurret extends SubsystemBase
      */
     public ChopperTurret() {
         motor = new TalonSRXSmartPosition(Constants.CHOPPER_TURRET);
+        motor.configFactoryDefault();
+        motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        motor.setSensorPhase(Constants.kSensorPhase);
+        motor.configNominalOutputForward(0, Constants.kTimeoutMs);
+        motor.configNominalOutputReverse(0, Constants.kTimeoutMs);
+        motor.configPeakOutputForward(1, Constants.kTimeoutMs);
+        motor.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+        motor.configAllowableClosedloopError(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        motor.config_kF(Constants.kPIDLoopIdx, Constants.kGains.kF, Constants.kTimeoutMs);
+        motor.config_kP(Constants.kPIDLoopIdx, Constants.kGains.kP, Constants.kTimeoutMs);
+        motor.config_kI(Constants.kPIDLoopIdx, Constants.kGains.kI, Constants.kTimeoutMs);
+        motor.config_kD(Constants.kPIDLoopIdx, Constants.kGains.kD, Constants.kTimeoutMs);
+
         ShuffleboardTab tab = Shuffleboard.getTab("Turret");
         addMotorNumber(tab);
         targetEntry = addTurretTarget(tab);
@@ -74,7 +89,7 @@ public class ChopperTurret extends SubsystemBase
         addLimitsList(tab);
 
         xPosEntry = NetworkTableInstance.getDefault().getTable("datatable").getEntry("Relative Encoder Value");
-        xPosEntry.setDouble(DO_NOTHING_POS);
+        // xPosEntry.setDouble(DO_NOTHING_POS);
 
         addTurretCommandToTab("Rotate CW", () -> 420, true);
         addTurretCommandToTab("Rotate CCW", () -> -420, true);
@@ -85,13 +100,19 @@ public class ChopperTurret extends SubsystemBase
         return xPos;
     }
 
+    double last_target = 0;
+
     public void set(double relativePosition) {
-        System.out.println("*********** Setting Turret Relative Position ***********");
-        System.out.println("Relative Position: " + relativePosition);
-        m_targetPosition = m_currentPosition + relativePosition;
-        System.out.println("Target Position: " + m_targetPosition);
-        motor.set(ControlMode.MotionMagic, m_targetPosition);
-        targetEntry.setDouble(m_targetPosition);
+        //System.out.println("*********** Setting Turret Relative Position ***********");
+        //System.out.println("Relative Position: " + relativePosition);
+        if( last_target != relativePosition ) {
+            m_targetPosition = m_currentPosition + relativePosition;
+            last_target = relativePosition;
+            System.out.println("Target Position: " + m_targetPosition);        motor.set(ControlMode.Position, m_targetPosition);
+            targetEntry.setDouble(m_targetPosition);
+        }
+        
+
     }
 
     public void updateSimVals(int deltaSim) {
@@ -137,6 +158,8 @@ public class ChopperTurret extends SubsystemBase
         currentEntry.setDouble(motor.getStatorCurrent());
         posErrorEntry.setDouble(m_posError);
 
+        System.out.println("Cur:" + m_currentPosition + "  posError:" + m_posError);
+
         // If max encoder reached but position error is positive then we can move
         // true here means we can move
         boolean overMaxSendingBack = (!maxEncoderReached() || m_posError > 0);
@@ -162,10 +185,21 @@ public class ChopperTurret extends SubsystemBase
     /**
      * Will be called periodically whenever the CommandScheduler runs.
      */
+
+     double lastCamPos = 0;
     @Override
     public void periodic() {
+        // System.out.println("Command: " + this.getClass());
         xPos = ( (int) xPosEntry.getDouble(DO_NOTHING_POS)) * 4;
-        cameraXPosEntry.setNumber(xPos);
+        // xPosEntry = NetworkTableInstance.getDefault().getTable("datatable").getEntry("Relative Encoder Value");
+        // xPos = (int)xPosEntry.getDouble(0);
+        
+        // if( lastCamPos != xPosEntry.getDouble(0) ) {
+            // System.out.println("xPos:" + xPos);
+            // set(xPosEntry.getDouble(0));
+            // cameraXPosEntry.setNumber(xPos);
+            // lastCamPos = xPosEntry.getDouble(0);
+        // }
     }
 
     public void setPower(double powerLevel) {

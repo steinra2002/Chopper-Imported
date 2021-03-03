@@ -35,7 +35,7 @@ public class MecanumCommand extends CommandBase {
      */
     @Override
     public void execute() {
-        System.out.println("Command: " + this.getClass());
+        // System.out.println("Command: " + this.getClass());
 //        System.out.println("leftY: " + leftY.getAsDouble() + " leftX: " + leftX.getAsDouble() + " rightZ: " + rightZ.getAsDouble());
         //chopperDrive.testDriveMotors(leftX.getAsDouble());
         chopperDrive.driveWithJoy(

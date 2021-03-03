@@ -21,7 +21,7 @@ public class AutonomousDriveAndShootCloseCommandGroup extends SequentialCommandG
                 new MecanumCommand(() -> -0.5, () -> 0.0, () -> 0.0, chopperDrive).withTimeout(1.0),
                 new RunCommand(() -> {
                             chopperDrive.stop();
-                            poofHopper.setMotorSpeed(-0.6, 0.5);
+                            poofHopper.setMotorSpeed(-0.5, 0.4);
                         }).withTimeout(4.0),
                 new InstantCommand(
                         // Start Runnable

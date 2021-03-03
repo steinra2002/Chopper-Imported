@@ -25,6 +25,7 @@ public final class Constants {
     public static int ELEVATOR_STOPPER = 9;
     public static final String GAMEPAD = "Logitech Gamepad";
     public static final String NOJOY = "Un-Logitech Gamepad";
+	public static final Gains kGains = new Gains(14.0, 0.001, 1.0, 0.0, 0, 1.0);
     public static int POOF_BALL_PEWPEWII = 5;
     public static int CHOPPER_TURRET = 12;
     public static int HOPPER_ONE = 8;

@@ -27,6 +27,16 @@ public class RotateTurretCommand extends CommandBase {
         addRequirements(chopperTurret);
     }
 
+
+    public RotateTurretCommand( ChopperTurret chopperTurret, boolean commandFinishes) {
+        IntSupplier sup = () -> 0;
+        this.encoderTicksSupplier = sup;
+        this.chopperTurret = chopperTurret;
+        this.commandFinishes = commandFinishes;
+        addRequirements(chopperTurret);
+    }
+
+
     @Override
     public void initialize() {
         curState = TurretCommandState.kInitialize;
@@ -42,6 +52,7 @@ public class RotateTurretCommand extends CommandBase {
 
     @Override
     public void execute() {
+        // System.out.println("Command: " + this.getClass());
         curState = TurretCommandState.kExecute;
     }
 
