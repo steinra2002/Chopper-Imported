@@ -17,41 +17,41 @@ public class TalonSRXSmartPosition extends WPI_TalonSRX {
         configFactoryDefault();
         configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
-        configNeutralDeadband(0.001);
+        //configNeutralDeadband(0.001);
 
-        setSensorPhase(Constants.kSensorPhase);
-        setInverted(Constants.kInverted);
+        //setSensorPhase(Constants.kSensorPhase);
+        //setInverted(Constants.kInverted);
 
-        setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10);
-        setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10);
+        //setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10);
+        //setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10);
 
         // PID coefficients
-        kP = 5.0 * 1023.0 / 500.0;
+        //kP = 5.0 * 1023.0 / 500.0;
 //        kI = 0.005;
-        kI = 0.001;
+        //kI = 0.001;
 //        kD = 100.0 * 1023.0 / 541.0;
 //        kD = 100.0 * 1023.0 / 541.0;
-        kD = 0.0;
+        //kD = 0.0;
 //        kIz = 200;
-        kIz = 0.0;
-        kFF = 1023.0 / 285.0;
-        kMaxOutput = 1;
-        kMinOutput = -1;
+        //kIz = 0.0;
+       // kFF = 1023.0 / 285.0;
+        //kMaxOutput = 1;
+        //kMinOutput = -1;
 
-        configNominalOutputForward(0);
-        configNominalOutputReverse(0);
-        configPeakOutputForward(kMaxOutput);
-        configPeakOutputReverse(kMinOutput);
+        //configNominalOutputForward(0);
+        //configNominalOutputReverse(0);
+        //configPeakOutputForward(kMaxOutput);
+        //configPeakOutputReverse(kMinOutput);
 
-        selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
-        config_kF(Constants.kPIDLoopIdx, kFF);
-        config_kP(Constants.kPIDLoopIdx, kP);
-        config_kI(Constants.kPIDLoopIdx, kI);
-        config_kD(Constants.kPIDLoopIdx, kD);
+        //selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIdx);
+        //config_kF(Constants.kPIDLoopIdx, kFF);
+        //config_kP(Constants.kPIDLoopIdx, kP);
+        //config_kI(Constants.kPIDLoopIdx, kI);
+        //config_kD(Constants.kPIDLoopIdx, kD);
 
-        configMotionCruiseVelocity(Constants.kMotionCruiseVelocity);
-        configMotionAcceleration(Constants.kMotionAcceleration);
+        //configMotionCruiseVelocity(Constants.kMotionCruiseVelocity);
+        //configMotionAcceleration(Constants.kMotionAcceleration);
 
-        setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        //setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
     }
 }
